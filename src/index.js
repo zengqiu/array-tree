@@ -37,7 +37,7 @@ export function treeToArray(tree, options={}) {
         excludeBranchNodes: false,
     }, options)
     // excludeBranchNodes 排除分支节点（只获取叶子节点）
-    const treeCopy = JSON.parse(JSON.stringify(tree))
+    const treeCopy = JSON.parse(JSON.stringify(Array.isArray(tree) ? tree : [tree]))
     return treeCopy.reduce(function (previous, current) {
         if (current[childrenKey]) {
             current[childrenKey].forEach(child => {excludeParent ? delete child[parentKey] : child[parentKey] = current[idKey]})
