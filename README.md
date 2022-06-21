@@ -36,7 +36,9 @@ treeToArray(tree, {
 
 | Name | Description | Type | Default |
 | :--- | :--- | :--- | :--- |
-| parentKey | The attribute used for the node's parent. | string  | parent |
+| idKey | The node's attribute to save node's unique identifier. | string | id |
 | childrenKey | The node's children attribute. | string  | children |
-| excludeBranchNodes | Exclude branch nodes, leave only leaf nodes. | boolean  | false |
+| excludeChildren | Remove node's children | boolean | true |
+| parentKey | The attribute used for the node's parent. | string  | parent |
 | excludeParent | Don't add parent to node. | boolean | false |
+| excludeBranchNodes | Exclude branch nodes, leave only leaf nodes. | boolean  | false |

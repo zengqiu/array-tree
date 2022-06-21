@@ -28,33 +28,28 @@ export function arrayToTree(array, options={}) {
 }
 
 export function treeToArray(tree, options={}) {
-    const { childrenKey, parentKey, excludeParent, excludeBranchNodes } = Object.assign({
+    const { idKey, childrenKey, excludeChildren, parentKey, excludeParent, excludeBranchNodes } = Object.assign({
+        idKey: 'id',
         childrenKey: 'children',
+        excludeChildren: true,
         parentKey: 'parent',
         excludeParent: false,
         excludeBranchNodes: false,
     }, options)
     // excludeBranchNodes 排除分支节点（只获取叶子节点）
-    return tree.reduce(function (previous, current) {
-        if (Object.keys(current).includes(childrenKey)) {
-            previous = previous.concat(treeToArray(current[childrenKey], childrenKey, excludeBranchNodes))
-            if (!excludeBranchNodes) {
-                const {[childrenKey]: children, ...rest} = current
-                previous = previous.concat(rest)
-            }
-        } else {
+    const treeCopy = JSON.parse(JSON.stringify(tree))
+    return treeCopy.reduce(function (previous, current) {
+        if (current[childrenKey]) {
+            current[childrenKey].forEach(child => {excludeParent ? delete child[parentKey] : child[parentKey] = current[idKey]})
+            previous = previous.concat(treeToArray(current[childrenKey], { idKey, childrenKey, excludeChildren, parentKey, excludeParent, excludeBranchNodes }))
+        }
+
+        if (!excludeBranchNodes || (excludeBranchNodes && !current[childrenKey])) {
+            excludeParent ? delete current[parentKey] : (!current[parentKey] ? current[parentKey] = null : undefined)
+            if (excludeChildren) delete current[childrenKey]
             previous = previous.concat(current)
         }
+
         return previous
     }, [])
 }
-    // return tree.reduce((previous, current) => (Object.keys(current).includes(childrenKey)
-    //         ? excludeBranchNodes
-    //             ? previous.concat(treeToArray(current[childrenKey], childrenKey, excludeBranchNodes))
-    //             : previous.concat(treeToArray(current[childrenKey], childrenKey, excludeBranchNodes),
-    //                 delete current[childrenKey] && current)
-    //         : previous.concat(current))
-    //     , [])
-// }
-
-
