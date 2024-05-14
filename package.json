@@ -6,10 +6,8 @@
   "module": "dist/array-tree.esm.min.js",
   "unpkg": "dist/array-tree.umd.min.js",
   "scripts": {
-    "start": "npm run dev",
     "dev": "rollup -w -c",
-    "build": "rollup -c",
-    "prepare": "npm run build"
+    "build": "rollup -c"
   },
   "files": [
     "dist"
