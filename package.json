@@ -7,7 +7,8 @@
   "unpkg": "dist/array-tree.umd.min.js",
   "scripts": {
     "dev": "rollup -w -c",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "prepare": "rollup -c"
   },
   "files": [
     "dist"
